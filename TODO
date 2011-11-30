@@ -1,0 +1,12 @@
+TODO
+====
+
+* static in functions not used by other .c files.
+
+* sudo apt-get install inotify-tools
+* apt-get install libsqlite3-dev
+* sudo apt-get install liblua5.1-curl-dev
+* sudo apt-get install libcurl4-gnutls-de
+* Download inotify tools  : https://github.com/rvoicilas/inotify-tools/wiki/
+
+
