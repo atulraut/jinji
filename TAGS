@@ -1,0 +1,76 @@
+
+/home/atul/dev/gtk/jinji/common/include/model.h,512
+#define DB 26,928
+#define SQL_FILENAME_DELIMITERS 27,953
+#define SQL_FILEPATH_DELIMITERS 28,1015
+#define DB_FIELDS_NUM 30,1077
+enum DB_FIELDS32,1102
+  DB_LATITUDE,34,1119
+  DB_LONGITUDE,35,1134
+  DB_PATH,36,1150
+  DB_FILE,37,1161
+  DB_TIME,38,1172
+typedef struct _database_contents database_contents;41,1187
+#define CREATE_TABLE 43,1241
+#define INSERT_INTO_TABLE 44,1298
+#define DELETE_FROM_TABLE 45,1352
+#define UPDATE_TABLE 46,1405
+#define HEY_VACUUM 47,1446
+#define SQLITE3_GET_TABLE 48,1474
+
+/home/atul/dev/gtk/jinji/common/include/view.h,142
+#define ABOUT_INFO 30,989
+#define ABOUT_HBOX_SPACING 31,1025
+#define ABOUT_CONTAINER_BORDER_WIDTH 32,1056
+#define GS_ABOUT_STRING 33,1097
+
+/home/atul/dev/gtk/jinji/common/include/retail_config.h,85
+#define VIEW_POINTER 31,1004
+#define CELL_TEXT 32,1040
+#define TREE_STORE 33,1081
+
+/home/atul/dev/gtk/jinji/common/linux/gthread.c,52
+gthread_initialize 30,969
+gthread_cleanup 59,1514
+
+/home/atul/dev/gtk/jinji/retail/model.c,272
+sqlite3 *db db38,1124
+gint database_entries 40,1145
+sqlite3_execute 48,1308
+get_data_from_model 64,1707
+return_database_entries 90,2288
+database_open 232,5658
+database_initialize 281,6966
+database_cleanup 316,7753
+upload_data 329,7961
+retail_settings 430,10647
+
+/home/atul/dev/gtk/jinji/retail/view.c,245
+static GtkWidget *s_window s_window38,1121
+retail_get_app_window 44,1231
+create_menu 53,1339
+create_and_fill_model 127,3936
+create_window 167,4994
+retail_widgets_creation 219,6583
+update_view 231,6812
+ui_callback_about_clicked 287,8234
+
+/home/atul/dev/gtk/jinji/retail/retail_create.c,169
+retail_create_tree_view 33,1041
+retail_create_gtk_cell_renderer_text 46,1360
+retail_create_tree_store 57,1623
+create_view_and_model 71,1997
+retail_cleanup 121,3370
+
+/home/atul/dev/gtk/jinji/retail/controller.c,86
+delete_event 34,1040
+destroy 42,1173
+initialize 49,1268
+atul_retail_start 57,1359
+
+/home/atul/dev/gtk/jinji/main.c,13
+main 29,931
+
+/home/atul/dev/gtk/jinji/common/include/controller.h,0
+
+/home/atul/dev/gtk/jinji/common/include/gthread.h,0

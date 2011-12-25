@@ -49,20 +49,7 @@ int
 initialize (gint argc, gchar * argv[])
 {
   gtk_init (&argc, &argv);
-/*
-  if (!gthread_initialize ())
-    {
-      g_print ("gthread_initialize() failed\n");
-      return FALSE;
-    }
 
-  if (!database_initialize ())
-    {
-      g_print ("database_initialize() failed\n");
-      gthread_cleanup ();
-      return FALSE;
-    }
-*/
   return TRUE;
 }
 

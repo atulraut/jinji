@@ -4,7 +4,7 @@
  * GUI implementation.
  * 
  * Copyright (C) 2008 Re-Ram Solutions Ltd.
- * Authored by Atul Raut <atulraut17@gmail.com>
+ * Author: by Atul Raut <atulraut17@gmail.com>
  * Date : Sunday, September 11 2011, 02:35 PM
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  */
 
 #include <gtk/gtk.h>
-//#include <gtk/gtkmain.h>
+#include <gdk/gdkkeysyms.h>
 
 #include <view.h>
 #include <controller.h>
@@ -52,35 +52,14 @@ retail_get_app_window (void)
 void
 create_menu (GtkWidget * main_window)
 {
-/*
-    GtkWidget * main_menu;
-    GtkWidget *menu_item;
-   
-    main_menu = gtk_menu_new ();
-
-    menu_item = gtk_menu_item_new_with_label ("Settings");
-    g_signal_connect (menu_item, "activate", G_CALLBACK (retail_settings), NULL);
-    gtk_menu_shell_append (GTK_MENU_SHELL (main_menu), menu_item);
-
-    menu_item = gtk_menu_item_new_with_label ("Upload Data");
-    g_signal_connect (menu_item, "activate", G_CALLBACK (upload_data), (gpointer) main_window);
-    gtk_menu_shell_append (GTK_MENU_SHELL (main_menu), menu_item);
-  
-    menu_item = gtk_menu_item_new_with_label ("About");
-    g_signal_connect (menu_item, "activate", G_CALLBACK (ui_callback_about_clicked), (gpointer)  main_window);
-    gtk_menu_shell_append (GTK_MENU_SHELL (main_menu), menu_item);  
-
-    menu_item = gtk_menu_item_new_with_label ("Exit Kiira");
-    g_signal_connect (menu_item, "activate", G_CALLBACK (destroy), NULL);
-    gtk_menu_shell_append (GTK_MENU_SHELL (main_menu), menu_item);
-*/
-   GtkWidget *vbox;
-
+  GtkWidget *vbox;
   GtkWidget *menuBar;
   GtkWidget *fileMenu, *settMenu, *abotMenu;
-  GtkWidget *file, *settings, *about;
-  GtkWidget *quit, *upload, *abt;
-  
+  GtkWidget *fileL, *settingsL, *aboutL;
+  GtkWidget *quitL, *uploadL, *abtL;
+  GtkWidget *new, *open, *sep;
+  GtkAccelGroup *accel_group = NULL;
+
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_container_add(GTK_CONTAINER(main_window), vbox);
 
@@ -89,37 +68,45 @@ create_menu (GtkWidget * main_window)
   settMenu = gtk_menu_new();
   abotMenu = gtk_menu_new();
 
-  file     = gtk_menu_item_new_with_label("File");
-  quit     = gtk_menu_item_new_with_label("Quit");
+  accel_group = gtk_accel_group_new();
+  gtk_window_add_accel_group(GTK_WINDOW(main_window), accel_group);
 
-  settings = gtk_menu_item_new_with_label("Settings"); 
-  upload   = gtk_menu_item_new_with_label("Upload");
+  fileL = gtk_menu_item_new_with_mnemonic("_file");
+  new = gtk_image_menu_item_new_from_stock(GTK_STOCK_NEW, NULL);
+  open = gtk_image_menu_item_new_from_stock(GTK_STOCK_OPEN, NULL);
+  sep = gtk_separator_menu_item_new();
+  quitL = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, accel_group);
 
-  about    = gtk_menu_item_new_with_label("About");
-  abt      = gtk_menu_item_new_with_label("About");
+  settingsL= gtk_menu_item_new_with_label("Settings"); 
+  uploadL  = gtk_menu_item_new_with_label("Upload");
 
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(file), fileMenu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), quit);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menuBar), file);
+  aboutL   = gtk_menu_item_new_with_label("About");
+  abtL     = gtk_menu_item_new_with_label("ATUL");
 
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(settings), settMenu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(settMenu), upload);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menuBar), settings);
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(fileL), fileMenu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), new);
+  gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), open);
+  gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), sep);
+  gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), quitL);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menuBar), fileL);
+  
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(settingsL), settMenu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(settMenu), uploadL);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menuBar), settingsL);
 
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(about), abotMenu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(abotMenu), about);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menuBar), abt);
-
-  gtk_box_pack_start(GTK_BOX(vbox), menuBar, FALSE, FALSE, 10);
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(aboutL), abotMenu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(abotMenu), abtL);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menuBar), aboutL);
+  
+  gtk_box_pack_start(GTK_BOX(vbox), menuBar, FALSE, FALSE, 03);
 
   g_signal_connect_swapped(G_OBJECT(main_window), "destroy",
         G_CALLBACK(gtk_main_quit), NULL);
 
-  g_signal_connect(G_OBJECT(quit), "activate",
+  g_signal_connect(G_OBJECT(quitL), "activate",
         G_CALLBACK(gtk_main_quit), NULL);
 
   gtk_widget_show_all(main_window);
-    
 }
 
 /* Populate store with data from model */
@@ -172,21 +159,19 @@ create_window (GtkWidget *window)
   GtkWidget *label = NULL, *label1 = NULL, *label2 = NULL;
 
   /* create the hildon program and set title */
-  //program = HILDON_PROGRAM (hildon_program_get_instance ());
-  g_set_application_name ("Atul Retailing");
+   g_set_application_name ("Atul Retailing");
 
   /* create the HildonWindow and set it to HildonProgram */
   s_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_default_size(GTK_WINDOW(s_window), 1100, 1100);
+  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+  gtk_window_set_default_size(GTK_WINDOW(s_window), 1200, 1200);
   g_return_val_if_fail (NULL != s_window, NULL);
 
   /* connect signal to X on top right corner */
   g_signal_connect (G_OBJECT (s_window), "delete_event",
 		    G_CALLBACK (gtk_main_quit), NULL);
 
-  //hildon_program_add_window (program, s_window);
-
-  /* create_menu (window); */
+   /* create_menu (window); */
   create_menu (s_window);
   
   ///retail_widgets_creation ();
