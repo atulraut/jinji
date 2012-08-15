@@ -1,5 +1,5 @@
 /*
- * model.h 
+ * model.h
  *
  * model/database connectivity header file.
  *

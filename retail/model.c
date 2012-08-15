@@ -324,10 +324,11 @@ database_cleanup (void *database)
   sqlite3_close (db);
 }
 
-/* Upload file to server */
+/*new_bill: Make new bill payment */
 void
-upload_data (GtkMenuItem * runfilemenuitem, GtkWindow * parent_window)
+new_bill(GtkMenuItem * runfilemenuitem, GtkWindow * parent_window)
 {
+  printf ("\n new_bill fun got called ....\n");
 
   CURL *curl;
   CURLcode res;
@@ -431,3 +432,4 @@ retail_settings (GtkMenuItem * settingmenuitem, GtkWindow * parent_window)
 {
 
 }
+

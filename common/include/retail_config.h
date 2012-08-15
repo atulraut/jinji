@@ -41,9 +41,12 @@ void retail_create_gtk_cell_renderer_text ();
 /* destroy unused object */
 void retail_cleanup ();
 
-/* file uplaod */
-void upload_data (GtkMenuItem *, GtkWindow *);
+/* new bill */
+void new_bill (GtkMenuItem *, GtkWindow *);
 
 /* retail related settings */
 void
 retail_settings (GtkMenuItem * settingmenuitem, GtkWindow * parent_window);
+
+/* about fun :*/
+void fun_about (GtkMenuItem * settingmenuitem, GtkWindow * parent_window);

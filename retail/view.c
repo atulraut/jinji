@@ -1,8 +1,8 @@
 /*
- * view.c 
+ * view.c
  *
  * GUI implementation.
- * 
+ *
  * Copyright (C) 2008 Re-Ram Solutions Ltd.
  * Author: by Atul Raut <atulraut17@gmail.com>
  * Date : Sunday, September 11 2011, 02:35 PM
@@ -77,27 +77,36 @@ create_menu (GtkWidget * main_window)
   sep = gtk_separator_menu_item_new();
   quitL = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, accel_group);
 
-  settingsL= gtk_menu_item_new_with_label("Settings"); 
+  settingsL= gtk_menu_item_new_with_label("Settings");
   uploadL  = gtk_menu_item_new_with_label("Upload");
 
   aboutL   = gtk_menu_item_new_with_label("About");
   abtL     = gtk_menu_item_new_with_label("ATUL");
 
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(fileL), fileMenu);
+
+  g_signal_connect (new, "activate", G_CALLBACK (new_bill), (gpointer) main_window);
   gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), new);
+
+  g_signal_connect (open, "activate", G_CALLBACK (new_bill), (gpointer) main_window);
   gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), open);
+
   gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), sep);
+
+  g_signal_connect (quitL, "activate", G_CALLBACK (new_bill), (gpointer) main_window);
   gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), quitL);
+
   gtk_menu_shell_append(GTK_MENU_SHELL(menuBar), fileL);
-  
+
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(settingsL), settMenu);
   gtk_menu_shell_append(GTK_MENU_SHELL(settMenu), uploadL);
   gtk_menu_shell_append(GTK_MENU_SHELL(menuBar), settingsL);
 
+  g_signal_connect (abtL, "activate", G_CALLBACK (ui_callback_about_clicked), (gpointer) main_window);
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(aboutL), abotMenu);
   gtk_menu_shell_append(GTK_MENU_SHELL(abotMenu), abtL);
   gtk_menu_shell_append(GTK_MENU_SHELL(menuBar), aboutL);
-  
+
   gtk_box_pack_start(GTK_BOX(vbox), menuBar, FALSE, FALSE, 03);
 
   g_signal_connect_swapped(G_OBJECT(main_window), "destroy",
@@ -173,7 +182,7 @@ create_window (GtkWidget *window)
 
    /* create_menu (window); */
   create_menu (s_window);
-  
+
   ///retail_widgets_creation ();
 
   ///view = create_view_and_model ();
@@ -197,7 +206,7 @@ create_window (GtkWidget *window)
 }
 
 /**
-* Initialize the widgets pointer. 
+* Initialize the widgets pointer.
 *
 */
 void
@@ -247,7 +256,7 @@ update_view ()
   g_print ("total %d\n", total);
   if (total)
     {
-      // get data from database 
+      // get data from database
       for (i = DB_FIELDS_NUM; i < total; i += DB_FIELDS_NUM)
 	{
 
@@ -261,21 +270,22 @@ update_view ()
 			      DB_FILE, database_result[i + 3],
 			      DB_TIME, database_result[i + 4], -1);
 	}
-      // free memory allocated when retrieveing data from database 
+      // free memory allocated when retrieveing data from database
       //database_free_obtained_data (database_result);
     }
 */
 }
 
 /* Show "About" information */
-void 
+void
 ui_callback_about_clicked (GtkMenuItem *menuitem, GtkWindow *parent)
 {
   GtkWidget *dialog = NULL;
-  GtkWidget *label  = NULL; 
-  GtkWidget *image  = NULL; 
-  GtkWidget *hbox   = NULL;
-  /* Create a new dialog with one OK button. */
+  //  GtkWidget *label  = NULL;
+  //GtkWidget *image  = NULL;
+  //GtkWidget *hbox   = NULL;
+  /*
+  // Create a new dialog with one OK button.
   dialog = gtk_dialog_new_with_buttons (ABOUT_INFO, parent,
                                       GTK_DIALOG_MODAL,
                                       GTK_STOCK_OK, GTK_RESPONSE_OK,
@@ -284,23 +294,33 @@ ui_callback_about_clicked (GtkMenuItem *menuitem, GtkWindow *parent)
 
   //gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
   label = gtk_label_new (GS_ABOUT_STRING);
-  g_return_if_fail (NULL != label);  
- 
+  g_return_if_fail (NULL != label);
+
   image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_INFO,
                                   GTK_ICON_SIZE_DIALOG);
-  g_return_if_fail (NULL != image); 
+  g_return_if_fail (NULL != image);
 
   hbox = gtk_hbox_new (FALSE, ABOUT_HBOX_SPACING);
-  g_return_if_fail (NULL != hbox);  
+  g_return_if_fail (NULL != hbox);
 
   gtk_container_set_border_width (GTK_CONTAINER (hbox), ABOUT_CONTAINER_BORDER_WIDTH);
-  //gtk_box_pack_start_defaults (GTK_BOX (hbox), image);
-  //gtk_box_pack_start_defaults (GTK_BOX (hbox), label);
-  /* Pack the dialog content into the dialog's GtkVBox. */
-//  gtk_box_pack_start_defaults (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox);
+  gtk_box_pack_start_defaults (GTK_BOX (hbox), image);
+  gtk_box_pack_start_defaults (GTK_BOX (hbox), label);
+  // Pack the dialog content into the dialog's GtkVBox.
+  gtk_box_pack_start_defaults (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox);
   gtk_widget_show_all (dialog);
-  /* Create the dialog as modal and destroy it when a button is clicked. */
+  // Create the dialog as modal and destroy it when a button is clicked.
   gtk_dialog_run (GTK_DIALOG (dialog));
   gtk_widget_destroy (dialog);	
+*/
+dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_INFO,
+            GTK_BUTTONS_OK,
+            "Download Completed", "title");
+  gtk_window_set_title(GTK_WINDOW(dialog), "Information");
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+
 }
 
