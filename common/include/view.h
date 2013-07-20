@@ -32,9 +32,13 @@
 #define ABOUT_CONTAINER_BORDER_WIDTH 	10
 #define GS_ABOUT_STRING 		"Project by Re-Ram India!"
 
+GtkWidget *retail_get_app_window (void);
 void create_menu (GtkWidget *main_window);
+GtkTreeModel *create_and_fill_model (void);
 void create_window (GtkWidget *window);
 void retail_widgets_creation ();
 void update_view ();
 /* Show "About" information */
 void ui_callback_about_clicked (GtkMenuItem * menuitem, GtkWindow * parent);
+
+GdkPixbuf *create_pixbuf(const gchar * filename);

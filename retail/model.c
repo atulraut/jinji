@@ -26,6 +26,7 @@
 #include <sqlite3.h>
 #include <gtk/gtk.h>
 #include <glib.h>
+#include <glib/gprintf.h>
 
 #include <curl/curl.h>
 #include <curl/types.h>
@@ -34,6 +35,7 @@
 #include <model.h>
 #include <retail_config.h>
 #include <view.h>
+#include "gthread.h"
 
 sqlite3 *db = NULL;
 
@@ -80,7 +82,7 @@ get_data_from_model (gchar ** database_result)
       //    for (get_result = 0; get_result < (nrow + 1) * ncolumn; get_result++)
 //      g_print ("%s\n", database_result[get_result]);
 
-      return database_result;
+      //return database_result;
     }
 
   return FALSE;
@@ -339,13 +341,6 @@ new_bill(GtkMenuItem * runfilemenuitem, GtkWindow * parent_window)
 
   GtkWidget *dialog = NULL;
   FILE *fp = NULL;
-  gchar ch = NULL;
-  gchar **contents = NULL;
-  gsize len = 0;
-  GError *error;
-  gchar s[1024];
-  gchar **tokens = NULL;
-  gint i = 0;
 
   res = curl_global_init (CURL_GLOBAL_ALL);
 
@@ -353,7 +348,6 @@ new_bill(GtkMenuItem * runfilemenuitem, GtkWindow * parent_window)
     {
       g_print ("\nAT :curl_global_init failed \n");
       gthread_cleanup ();
-      return FALSE;
     }
   else
     {

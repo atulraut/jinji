@@ -127,12 +127,14 @@ create_and_fill_model (void)
   gchar **database_result = NULL;
   GtkTreeIter iter;
 
-
   GtkListStore *store;
   store =
     (GtkListStore *) g_object_get_data (G_OBJECT (retail_get_app_window ()),
 					TREE_STORE);
-  database_result = get_data_from_model (database_result);
+  gint ret;
+  ret = get_data_from_model (database_result);
+  if (ret)
+    printf ("\ndb not NULL\n");
   total = return_database_entries ();
   g_print ("total %d\n", total);
   if (total)
@@ -162,19 +164,18 @@ create_and_fill_model (void)
 void
 create_window (GtkWidget *window)
 {
-  GtkWidget *view = NULL;
-  GtkWidget *scrolled_window = NULL;
-  GtkWidget *noteboook = NULL;
-  GtkWidget *label = NULL, *label1 = NULL, *label2 = NULL;
-
   /* create the hildon program and set title */
    g_set_application_name ("Atul Retailing");
 
   /* create the HildonWindow and set it to HildonProgram */
   s_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+  if (s_window == NULL) {
+    printf ("\ns_window is NULL .. returning !\n");
+    return;
+  }
+  gtk_window_set_position(GTK_WINDOW(s_window), GTK_WIN_POS_CENTER);
   gtk_window_set_default_size(GTK_WINDOW(s_window), 1200, 1200);
-  g_return_val_if_fail (NULL != s_window, NULL);
+  //g_return_val_if_fail (NULL != s_window, NULL);
 
   /* connect signal to X on top right corner */
   g_signal_connect (G_OBJECT (s_window), "delete_event",
@@ -202,8 +203,24 @@ create_window (GtkWidget *window)
   gtk_container_add (GTK_CONTAINER (s_window), noteboook);
   */
   /* begin the main application */
+
+  gtk_window_set_icon (GTK_WINDOW (s_window), create_pixbuf("res/icon.png"));
   gtk_widget_show_all (GTK_WIDGET (s_window));
 }
+
+GdkPixbuf *create_pixbuf(const gchar * filename)
+{
+   GdkPixbuf *pixbuf;
+   GError *error = NULL;
+   pixbuf = gdk_pixbuf_new_from_file(filename, &error);
+   if(!pixbuf) {
+      fprintf(stderr, "%s\n", error->message);
+      g_error_free(error);
+   }
+
+   return pixbuf;
+}
+
 
 /**
 * Initialize the widgets pointer.
@@ -251,7 +268,7 @@ update_view ()
     }
 
   g_print ("\t clear store\n");
-  database_result = get_data_from_model (database_result);
+  ret = get_data_from_model (database_result);
   total = return_database_entries ();
   g_print ("total %d\n", total);
   if (total)
@@ -280,47 +297,15 @@ update_view ()
 void
 ui_callback_about_clicked (GtkMenuItem *menuitem, GtkWindow *parent)
 {
+  const gchar *msg_format = "Retail by ReRam !";
   GtkWidget *dialog = NULL;
-  //  GtkWidget *label  = NULL;
-  //GtkWidget *image  = NULL;
-  //GtkWidget *hbox   = NULL;
-  /*
-  // Create a new dialog with one OK button.
-  dialog = gtk_dialog_new_with_buttons (ABOUT_INFO, parent,
-                                      GTK_DIALOG_MODAL,
-                                      GTK_STOCK_OK, GTK_RESPONSE_OK,
-                                      NULL);
-  g_return_if_fail (NULL != dialog);
-
-  //gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-  label = gtk_label_new (GS_ABOUT_STRING);
-  g_return_if_fail (NULL != label);
-
-  image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_INFO,
-                                  GTK_ICON_SIZE_DIALOG);
-  g_return_if_fail (NULL != image);
-
-  hbox = gtk_hbox_new (FALSE, ABOUT_HBOX_SPACING);
-  g_return_if_fail (NULL != hbox);
-
-  gtk_container_set_border_width (GTK_CONTAINER (hbox), ABOUT_CONTAINER_BORDER_WIDTH);
-  gtk_box_pack_start_defaults (GTK_BOX (hbox), image);
-  gtk_box_pack_start_defaults (GTK_BOX (hbox), label);
-  // Pack the dialog content into the dialog's GtkVBox.
-  gtk_box_pack_start_defaults (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox);
-  gtk_widget_show_all (dialog);
-  // Create the dialog as modal and destroy it when a button is clicked.
-  gtk_dialog_run (GTK_DIALOG (dialog));
-  gtk_widget_destroy (dialog);	
-*/
-dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
+  dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
             GTK_DIALOG_DESTROY_WITH_PARENT,
             GTK_MESSAGE_INFO,
             GTK_BUTTONS_OK,
-            "Download Completed", "title");
+	    msg_format, "title");
   gtk_window_set_title(GTK_WINDOW(dialog), "Information");
   gtk_dialog_run(GTK_DIALOG(dialog));
   gtk_widget_destroy(dialog);
-
 }
 

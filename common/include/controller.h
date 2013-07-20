@@ -27,6 +27,5 @@
 
 gboolean delete_event (GtkWidget *widget, GdkEvent *event, gpointer data);
 void destroy (GtkWidget *widget, gpointer data);
-gint initialize(gint argc, gchar *argv[]);
-gint atul_ratail_start();
-
+int initialize(gint argc, gchar *argv[]);
+int atul_retail_start(GtkWidget *window);

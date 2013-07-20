@@ -24,14 +24,13 @@
  */
 
 #include <view.h>
+#include "controller.h"
 
-gint 
-main (gint argc, gchar *argv[])
-{
+gint main (gint argc, gchar *argv[]) {
 
   GtkWidget *window = NULL;
 
-  if (!initialize (&argc, &argv))
+  if (!initialize (argc, argv))
     {
       g_print ("initialize failed :(\n");
       return FALSE;

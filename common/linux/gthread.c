@@ -29,8 +29,6 @@
 gint
 gthread_initialize ()
 {
-  GError *g_error = NULL;
-
   /* threads are supported */
   if (!g_thread_supported ())
     {
