@@ -29,7 +29,7 @@
 #include <glib/gprintf.h>
 
 #include <curl/curl.h>
-#include <curl/types.h>
+#include <curl/typecheck-gcc.h>
 #include <curl/easy.h>
 
 #include <model.h>
