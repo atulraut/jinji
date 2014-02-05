@@ -4,6 +4,11 @@ README
 "at-retail" is an small scale retaing app, which stores all data
 accounts and manage the same. It uses sqlite3 as a database backend.
 
+=----------To check gtk pkg-config version for Makefile -------=
+--> pkg-config --list-all | grep gtk
+=----------*********************************************-------=
+
+
 http://rautatul.weebly.com/
 http://atulraut.wordpress.com/
 
