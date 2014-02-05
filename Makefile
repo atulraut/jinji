@@ -5,6 +5,8 @@ DIR_INCLUDE=common/include
 ifeq ($(PLATFORM), linux)
 PKG_CONFIG=`pkg-config --cflags --libs gtk+-3.0 gthread-2.0  glib-2.0 sqlite3 libcurl`
 LIBS=-lcurl
+
+INCLUDE=-I/usr/include/curl
 INCLUDE=-Iretail -Icommon/include $(LIBS)
 SRC=retail
 LINUX=common/linux
