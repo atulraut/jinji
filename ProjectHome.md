@@ -1,0 +1,1 @@
+This project is for business to track there day to day business, retail particularly. Help in day to day in and out, sell and purchase activity. Also used to track customers record.
